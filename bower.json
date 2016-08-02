@@ -1,0 +1,22 @@
+{
+  "name": "toptrump",
+  "description": "SDG Game",
+  "main": "app.js",
+  "authors": [
+    "SDG Team"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/ianmaher/toptrump",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "font-awesome": "^4.6.3"
+  }
+}
