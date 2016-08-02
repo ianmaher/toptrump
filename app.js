@@ -13,6 +13,7 @@ var config = require('./config/config.development.json'),
 db.init(config.databaseConfig);
 
 var port = process.env.PORT || 4000;
+var ip = process.env.IP;
 
 var payLoad = {
     title:' Top Trumps',
