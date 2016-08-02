@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<% include ./_head %>
+	</head>
+	<body>
+<!-- header -->
+<% include ./_header %>
+<!-- /Header -->
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2">
+<% include ./_leaderboard %>
+       </div>
+        <!-- play form -->
+        <form name="play"  method="post" class="form-horizontal" >      
+        <div class="col-sm-10">
+         <div class="panel panel-primary">
+            <div class="col-sm-6">
+            <% include ./_combat %> 
+            </div>
+            <div class="col-sm-3">
+            <% include ./_rounds %>
+            </div>
+            <div class="col-sm-3">
+            <% include ./_actions %>
+            </div>
+        </div>
+        </form>
+        <!--/play form-->
+    </div>
+    <!--/row-->
+</div>
+<!-- /Main -->
+
+<% include ./_footer %>
+	</body>
+</html>

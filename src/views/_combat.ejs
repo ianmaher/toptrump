@@ -1,0 +1,34 @@
+             <a href="#"><strong><i class="glyphicon glyphicon-film"></i> Combat</strong></a>
+                <hr>
+                    <div class="panel-heading">
+                        <h4>Characters</h4>
+                    </div>
+
+                    <span  class="text-danger"><%=errorMessage %></span>
+
+                    <div class="panel-body">
+<%  var r = ['zero','one', 'two', 'three'];
+	for ( var c = 1 ; c <= 4 ; c++ ) { %>
+                        <small>Competitor <%=r[c]%></small>
+                        <div class="panel">
+                        <div class="col-sm-4">
+                            Type: <select name="character-type-<%=c%>" class="form-control" >
+                                    <option value="warrior">Warrior</option>
+                                    <option value="wizard">Wizard</option>
+                                    <option value="Priest">Priest</option>
+                                    <option value="Thief">Thief</option>
+                                </select>
+                         </div>       
+                        <div class="col-sm-4">
+                            Attack: <input name="character-attack-<%=c%>" class="form-control" style="width:50%" type="number" min="1" max="99"/>
+                         </div>       
+                        <div class="col-sm-4">
+                            Value: <input name="character-value-<%=c%>" class="form-control" style="width:50%" type="number" min="1" max="49"/>
+                         </div>       
+                        </div>
+<% } %>
+
+
+                        <!--/panel-body-->
+                    </div>
+   

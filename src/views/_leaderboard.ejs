@@ -1,0 +1,17 @@
+<!-- Left column -->
+<a href="#"><strong><i class="glyphicon glyphicon-globe"> Leader Board</i></strong></a>
+<hr>
+<ul class="nav nav-stacked">
+    <li class="nav-header"> <a href="#" data-toggle="collapse" data-target="#userMenu">Players <i class="glyphicon glyphicon-chevron-down"></i></a>
+        <ul class="nav nav-stacked collapse in" id="userMenu">
+            <% if ( leaderBoard.players ) { %>
+            <% for (var i=0; i < leaderBoard.players.length ; i++ ) {%>
+            <li> <a href=""><i class="glyphicon"></i> <%=leaderBoard.players[i].name%>
+            <div class="score">(<%=leaderBoard.players[i].leagueScore%>)</div>
+            </a></li>
+            <% } %>            
+            <% } %>
+        </ul>
+    </li>
+</ul>
+<hr>

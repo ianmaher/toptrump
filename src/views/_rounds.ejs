@@ -1,0 +1,25 @@
+
+<a href="#"><strong><i class="glyphicon glyphicon-film"></i> Rounds</strong></a>
+<hr>
+
+    <div class="panel-heading">
+        <h4>Score</h4>
+    </div>
+    <div class="panel-body">
+<%  var labels = ['one', 'two', 'three', 'four', 'five','six'];
+     for ( var c = 0 ; c < rounds.length ; c++ ) { %>
+
+        <small>Round <%=labels[c]%> :</small>
+        <div class="panel">
+        <div class="col-sm-10">
+
+            <div class="round-score">
+                <%=rounds[c].players[0].score%> pts
+            </div>
+        </div>
+        </div>
+<%  } %>
+
+    <!--/panel-body-->
+</div>
+
