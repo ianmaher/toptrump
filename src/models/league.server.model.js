@@ -4,12 +4,19 @@ var mongodb = require('mongodb'),
 
 var memberSchema = new Schema({
     name: String,
-    leagueScore: Number
+    gameScore: {type: Number, default: 0},
+    runAway: {type: Boolean, default: false}
+});
+
+var matchSchema = new Schema({
+    winner: String,
+    members: [memberSchema],
+    date: {type: Date, default: Date.now}
 });
 
 var leagueSchema = new Schema({
     name: String,
-    players: [memberSchema]
+    matches: [matchSchema]
 });
 
 var leagueModel = mongoose.model('league', leagueSchema);

@@ -19,6 +19,7 @@ var router = function(payLoad) {
             }
 
             payLoad.me = req.session.passport.user.username;
+            payLoad.avatarURL = req.session.passport.user.avatar;
             next();
         })
         .get(siteController.game)

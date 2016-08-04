@@ -10,6 +10,8 @@ module.exports = function (payLoad) {
             payLoad.leaderBoard = leagueTable;
             console.log(payLoad.leaderBoard);
         });
+        payLoad.me = '';
+        payLoad.avatarURL = '';
         res.render('index', payLoad);
     };
 
@@ -28,21 +30,42 @@ module.exports = function (payLoad) {
                 res.render('game', payLoad);
                 break;
             case 'newgame':
-                console.log('call create game');
                 gameRepository.fetchLeagueTable(function(err,leagueTable) {
                     payLoad.leaderBoard = leagueTable;
                 });
 
-                gameRepository.createGame(function(err,newGame) {
-                    payLoad.gameName = newGame.name;
+                gameRepository.createGame(req.session.passport.user.username, req.body['game-name'], function(err,newGame) {
                     req.session.gameId = newGame.id;
+                    req.session.creator = newGame.creator;
+                    payLoad.creator = newGame.creator;
+                    payLoad.gameName = newGame.name;
                     payLoad.gameId = newGame.id;
                     payLoad.rounds = [];
                     res.render('game', payLoad);
                 });
                 break;
+            case 'joingame':
+                gameRepository.fetchLeagueTable(function(err,leagueTable) {
+                    payLoad.leaderBoard = leagueTable;
+                });
+
+                gameRepository.fetchGameByName(req.body['game-name'], function(err,existingGame) {
+                    req.session.gameId = existingGame.id;
+                    req.session.creator = existingGame.creator;
+                    payLoad.creator = existingGame.creator;
+                    payLoad.gameName = existingGame.name;
+                    payLoad.gameId = existingGame.id;
+                    payLoad.rounds = [];
+                    existingGame.players[1].name = req.session.passport.user.username;
+                    gameRepository.saveGame(existingGame, function(err,existingGame) {
+                        res.render('game', payLoad);
+                    });
+
+                });
+                break;
             case 'fight':
                 var combatTeam = require('../validators/combatTeam')(req.body);
+                var playerIdx = 0;
 
                 payLoad.errorMessage = combatTeam.validate();
 
@@ -53,9 +76,14 @@ module.exports = function (payLoad) {
                 // player has entered valid information. Play the round
 
                 payLoad.gameId = req.session.gameId;
+                if (req.session.creator === req.session.passport.user.username) {
+                    playerIdx = 0;
+                }
+                else {
+                    playerIdx = 1;
+                }
+
                 var round = {
-                    players : [{
-                        name: req.session.passport.user.username,
                         characters : [
                             {
                                 type:req.body['character-type-1'],
@@ -78,34 +106,61 @@ module.exports = function (payLoad) {
                                 value: req.body['character-value-4']
                             }
                         ]
-                    }]
-                };
-                round.players[0].score = scoringEngine.calclateScore(round.players[0].characters);
+                    };
 
-                gameRepository.addRoundToGame(payLoad.gameId, round, function(err, game, gameOver) {
-                    payLoad.rounds = game.rounds;
-                    if (gameOver === true) {
-                        var gameScore = 0;
-                        for (var i = 0 ; i < game.rounds.length ; i++)
-                        {
-                            if (game.rounds[i].players[0].score > 0) {
-                                gameScore += game.rounds[i].players[0].score;
-                            }
-                        }
-                        game.score = gameScore;
-                        game.winner = req.session.passport.user.username;
-                        gameRepository.gameOver(game, function(err) {
-                            console.log('error in game over' + err);
-                        });
+//                round.players[0].score = scoringEngine.calclateScore(round.players[0].characters);
 
-                        payLoad.errorMessage = 'Game Over. You scored ' + gameScore;
+                gameRepository.addRoundToGame(payLoad.gameId, round, playerIdx, function(err, game, myGameOver, gameOver) {
+                    var totScores = [0,0];
+                    for (var r = 0 ; r < Math.min(game.players[0].rounds.length,game.players[1].rounds.length) ; r++) {
+                        var scores = scoringEngine.charScore(game.players[0].rounds[r].characters,
+                                                        game.players[1].rounds[r].characters);
+                        game.players[0].rounds[r].score = scores[0];
+                        game.players[1].rounds[r].score = scores[1];
+
+                        totScores[0] += game.players[0].rounds[r].score;
+                        totScores[1] += game.players[1].rounds[r].score;
+
+                    }
+
+                    if (myGameOver === true) {
                         payLoad.gameName = '';
                         req.session.gameId = '';
                         payLoad.gameId = '';
                         payLoad.rounds = [];
 
                     }
-                    res.render('game', payLoad);
+
+                    if (gameOver === true) {
+
+                        switch (true){
+                            case(totScores[0] > totScores[1]):
+                                game.winner = game.players[0].name;
+                                break;
+                            case(totScores[0] < totScores[1]):
+                                game.winner = game.players[1].name;
+                                break;
+                            default:
+                                game.winner = 'no one (DRAW)';
+                        }
+                        game.players[0].gameScore = totScores[0];
+                        game.players[1].gameScore = totScores[1];
+
+                        payLoad.errorMessage = 'Game Over. You scored ' + totScores[playerIdx];
+
+                    }
+                    gameRepository.saveGame(game, function(err) {
+                        payLoad.rounds = game.players[playerIdx].rounds;
+                        if (gameOver === true) {
+                            // todo : change league table
+                            gameRepository.gameOver(game, function(err,game) {
+                                res.render('game', payLoad);
+                            });
+                        }
+                        else {
+                            res.render('game', payLoad);
+                        }
+                    });
                 });
                 // display page to allow the player to continue with game.
                 break;

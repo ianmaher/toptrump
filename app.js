@@ -13,16 +13,17 @@ var config = require('./config/config.development.json'),
 db.init(config.databaseConfig);
 
 var port = process.env.PORT || 4000;
-var ip = process.env.IP;
 
 var payLoad = {
     title:' Top Trumps',
     gameName: '',
+    creator: '',
     gameId: '',
     errorMessage: '',
     nav:[],
     leaderBoard:[],
-    rounds:[]
+    rounds:[],
+    avatarURL: ''
 };
 
 var siteRoutes = require('./src/routes/siteRoutes')(payLoad);

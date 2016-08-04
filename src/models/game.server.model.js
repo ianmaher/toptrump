@@ -3,47 +3,32 @@ var mongodb = require('mongodb'),
     Schema = mongoose.Schema;
 
 var characterSchema = new Schema({
-    type: {type:String},
-    attack: Number,
-    value:   Number,
-    date: {type: Date, default: Date.now},
-    __order: Number
-});
-// TODO: may not require this hack. depends on what is saved to DB.
-characterSchema.virtual('combatOrder').get(function () {
-    return this.__order;
-});
-characterSchema.virtual('combatOrder').set(function (order) {
-    this.__order = order;
-});
-
-var playerSchema = new Schema({
-    name: String,
-    score: Number,
-    characters: [characterSchema],
+    type : {type:String},
+    attack : Number,
+    value : Number,
+    charOrder : Number,
 });
 
 var roundSchema = new Schema({
-    players: [playerSchema],
+    characters : [characterSchema],
+    score : {type: Number, default: 0},
+});
+
+var playerSchema = new Schema({
+    name : String,
+    runAway : {type:Boolean, default: false},
+    gameOver : {type:Boolean, default: false},
+    currentRound : {type: Number, default: 0},
+    gameScore: {type: Number, default: 0},
+    rounds : [roundSchema]
 });
 
 var gameSchema = new Schema({
-    name: String,
-    rounds: [roundSchema],
-    currentRound: {type: Number, default: 0},
-    maxRound: {type: Number, default: 3},
+    name : String,
+    creator: String,
     winner : String,
-    score: Number
-});
-
-var memberSchema = new Schema({
-    name: String,
-    leagueScore: Number
-});
-
-var leagueSchema = new Schema({
-    name: String,
-    players: [memberSchema]
+    players : [playerSchema],
+    maxRound : {type: Number, default: 3}
 });
 
 var gameModel = mongoose.model('game',gameSchema);

@@ -6,10 +6,13 @@
     </div>
     <div class="panel-body">
 <% if ( gameId === '' ) { %>
+    Game Name: <br/> <input name="game-name" class="form-control" />
     <div class="form-group">
             <button type="submit" name="player-action" value="newgame" class="btn btn-default">New Game</button>
     </div>
-<% } else { %>    
+    <div class="form-group">
+            <button type="submit" name="player-action" value="joingame" class="btn btn-default">Join Game</button>
+    </div><% } else { %>    
     <div class="form-group">
             <button type="submit" name="player-action" value="fight" class="btn btn">Fight!</button>
     </div>

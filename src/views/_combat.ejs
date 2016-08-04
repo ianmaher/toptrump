@@ -1,4 +1,4 @@
-             <a href="#"><strong><i class="glyphicon glyphicon-film"></i> Combat</strong></a>
+             <a href="#"><strong><i class="glyphicon glyphicon-film"></i> Combat <% if( typeof gameName != 'undefined' && gameName != '') { %> in <%=gameName %> <% } %></strong></a>
                 <hr>
                     <div class="panel-heading">
                         <h4>Characters</h4>
@@ -7,7 +7,7 @@
                     <span  class="text-danger"><%=errorMessage %></span>
 
                     <div class="panel-body">
-<%  var r = ['zero','one', 'two', 'three'];
+<%  var r = ['zero','one', 'two', 'three','four'];
 	for ( var c = 1 ; c <= 4 ; c++ ) { %>
                         <small>Competitor <%=r[c]%></small>
                         <div class="panel">
@@ -20,10 +20,10 @@
                                 </select>
                          </div>       
                         <div class="col-sm-4">
-                            Attack: <input name="character-attack-<%=c%>" class="form-control" style="width:50%" type="number" min="1" max="99"/>
+                            <div data-placement="top" title="The attack value of a troop is how strong it is, if a competitor's attack value is strong than it's adjacent enemy, you win that battle.">Attack:</div> <input name="character-attack-<%=c%>" class="form-control" style="width:50%" type="number" min="1" max="99" value="1"/>
                          </div>       
                         <div class="col-sm-4">
-                            Value: <input name="character-value-<%=c%>" class="form-control" style="width:50%" type="number" min="1" max="49"/>
+                            <div data-placement="top" title="The value is the amount a character is worth and how many points are given/recieve after defeating their adjacent enemy in attack points.">Value: </div> <input name="character-value-<%=c%>" class="form-control" style="width:50%" type="number" min="1" max="49" value="1"/>
                          </div>       
                         </div>
 <% } %>

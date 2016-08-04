@@ -35,7 +35,8 @@ module.exports = function (nav) {
             var collection = db.collection('users');
             var user = {
                 username: req.body.username,
-                password: req.body.password
+                password: req.body.password,
+                avatar: req.body.avatar
             };
             collection.insert(user, function(err,results) {
                 req.login(results, function() {

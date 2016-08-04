@@ -1085,8 +1085,8 @@ body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.42857143;
-  color: #333;
-  background-color: #fff;
+  color: #fff;
+  background-color: #46BFE8;
 }
 input,
 button,
@@ -1097,12 +1097,12 @@ textarea {
   line-height: inherit;
 }
 a {
-  color: #337ab7;
+  color: #CFBB3E;
   text-decoration: none;
 }
 a:hover,
 a:focus {
-  color: #23527c;
+  color: #E8D246;
   text-decoration: underline;
 }
 a:focus {
@@ -4589,8 +4589,8 @@ fieldset[disabled] .navbar-default .btn-link:focus {
   color: #ccc;
 }
 .navbar-inverse {
-  background-color: #222;
-  border-color: #080808;
+  background-color: #E8D246;
+  border-color: #E8D246;
 }
 .navbar-inverse .navbar-brand {
   color: #9d9d9d;
