@@ -1,6 +1,16 @@
 # toptrump
 SDG Game
 
+
+
+##
+
+Over the summer holidays I ran a coding club for my son and a few of his friends. We had a great fun discussing what we wanted to write and how to collaborate in the project. It seems a long time ago now and I'm glad to say a few of the boys have now graduated with Maths or Computer Science degrees.
+
+
+
+## Notes
+
 run these commands
 npm init
 npm install --save-dev gulp
